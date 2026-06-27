@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE OBSERVATION WING</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='black'/><circle cx='8' cy='8' r='4' fill='none' stroke='%234fd08a' stroke-width='1.5'/><circle cx='8' cy='8' r='1.5' fill='%23e2483c'/></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================ HEADER ============================ -->
+  <header id="topbar">
+    <div class="brand">
+      <span class="rec">●REC</span>
+      <span class="title">THE OBSERVATION WING</span>
+      <span class="sub">MANAGER TERMINAL · REV 3.3</span>
+    </div>
+    <div class="status-cluster">
+      <div class="clock-block">
+        <div class="clock" id="clock">00:00</div>
+        <div class="shift-bar"><div class="shift-fill" id="shiftFill"></div></div>
+      </div>
+      <div class="tmf-block" id="tmfStatus">
+        <div class="tmf-label">T.M.F.</div>
+        <div class="tmf-state" id="tmfState">READY</div>
+      </div>
+      <button id="soundToggle" class="icon-btn" title="Master sound">🔇</button>
+    </div>
+  </header>
+
+  <!-- ============================ MAIN ============================ -->
+  <main id="stage">
+    <section id="monitor-wrap">
+      <div id="monitor-frame">
+        <canvas id="monitor" width="480" height="360"></canvas>
+        <div class="scanlines"></div>
+        <div class="cam-osd">
+          <span id="osdCam">CAM-01</span>
+          <span id="osdName">DOCTOR INSANE</span>
+          <span id="osdLoc">WARD CORNER</span>
+        </div>
+        <div class="cam-osd-r">
+          <span id="osdState">DORMANT</span>
+        </div>
+        <div id="breachText" class="breach-text"></div>
+      </div>
+    </section>
+
+    <aside id="roster">
+      <h2>CONTAINMENT STATUS</h2>
+      <div id="rosterList"></div>
+    </aside>
+  </main>
+
+  <!-- ====================== CAMERA STRIP ====================== -->
+  <div id="cam-strip"></div>
+
+  <!-- ====================== CONTROL DECK ====================== -->
+  <div id="control-deck">
+    <button class="ctrl" id="btnLights">
+      <span class="ctrl-k">LIGHTS</span><span class="ctrl-v" id="vLights">BRIGHT</span>
+    </button>
+    <button class="ctrl" id="btnAudio">
+      <span class="ctrl-k">AUDIO GAIN</span><span class="ctrl-v" id="vAudio">HIGH</span>
+    </button>
+    <button class="ctrl" id="btnVents">
+      <span class="ctrl-k">VENTS</span><span class="ctrl-v" id="vVents">CLOSED</span>
+    </button>
+    <button class="ctrl act" id="btnLog">
+      <span class="ctrl-k">LOG</span><span class="ctrl-v">RECORD</span>
+    </button>
+    <button class="ctrl danger" id="btnTMF">
+      <span class="ctrl-k">DEPLOY TMF</span><span class="ctrl-v" id="vTMF">— ARMED</span>
+    </button>
+    <button class="ctrl" id="btnHandbook">
+      <span class="ctrl-k">HANDBOOK</span><span class="ctrl-v">REV 3.3</span>
+    </button>
+  </div>
+
+  <!-- ====================== LOG CONSOLE ====================== -->
+  <div id="log-console">
+    <div class="log-head">// OBSERVATION LOG</div>
+    <div id="logFeed"></div>
+  </div>
+
+  <!-- ====================== OVERLAYS ====================== -->
+  <div id="overlay-title" class="overlay show">
+    <div class="o-card">
+      <div class="rec big">●REC</div>
+      <h1>THE OBSERVATION WING</h1>
+      <p class="tag">An observation-horror shift. Six entities. One Manager.</p>
+      <ul class="brief">
+        <li>Watch all six analog-horror entities across the camera feeds.</li>
+        <li>Each has an <b>AGITATION</b> meter and a <b>CONTROL</b> meter.</li>
+        <li>Calm them with the right lights, audio, vents and attention.</li>
+        <li>Their needs conflict — you cannot please everyone. Triage.</li>
+        <li>Agitation hits 100% → <b>containment breach</b> → facility lost.</li>
+        <li>Control ≤ 10% → deploy the <b>TMF</b> to re-contain. Misuse is fatal to them.</li>
+        <li>Survive until <b>06:00</b> to hold the wing.</li>
+      </ul>
+      <div class="o-actions">
+        <button id="btnStart" class="big-btn">BEGIN SHIFT</button>
+        <button id="btnReadFirst" class="ghost-btn">READ HANDBOOK</button>
+      </div>
+      <p class="warn">Headphones recommended. Contains flashing imagery and static.</p>
+    </div>
+  </div>
+
+  <div id="overlay-handbook" class="overlay">
+    <div class="o-card book">
+      <pre id="handbookText"></pre>
+      <button id="btnCloseBook" class="big-btn">CLOSE</button>
+    </div>
+  </div>
+
+  <div id="overlay-end" class="overlay">
+    <div class="o-card">
+      <h1 id="endTitle">FACILITY LOST</h1>
+      <p id="endMsg" class="tag"></p>
+      <div id="endStats" class="brief"></div>
+      <div class="o-actions">
+        <button id="btnRestart" class="big-btn">RESTART SHIFT</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="flash" class="flash"></div>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
