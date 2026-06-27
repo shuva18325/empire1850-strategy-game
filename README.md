@@ -13,6 +13,8 @@ terminal reports:
 No build step, no dependencies. Pure HTML / CSS / vanilla JS + Canvas + Web
 Audio. Open it and play.
 
+> 📖 Full design spec: **[docs/GAME_DESIGN_DOCUMENT.md](docs/GAME_DESIGN_DOCUMENT.md)**
+
 ---
 
 ## Run it
@@ -51,14 +53,25 @@ Every entity destabilises differently and wants a *different* environment.
 | **LOG** | Record an observation on the active camera. Acknowledges the entity and nudges its **Control** back up. |
 | **DEPLOY TMF** | Send the Tactical Mobile Force at the entity on the active camera. |
 | **HANDBOOK** | The in‑universe Manager's Handbook (Rev 3.3). |
+| **PANIC** *(header)* | Emergency wing‑wide stabilization: −26 agitation on every entity, but −9 control on every entity **and** the siren wakes the Listener. 50s cooldown. |
 
 Switching cameras, toggling controls, running vents and the facility alarm all
 make **noise** — which draws the Listener. Watch what you touch.
 
+**Random anomalies** punctuate the shift: power surges (lights flicker → the
+Locust), camera outages (`SIGNAL LOST` on a feed), audio feedback (draws the
+Listener), and corrupted transmissions in the log.
+
+### Difficulty & nights
+
+Pick a **clearance** — `OBSERVER` (forgiving) · `MANAGER` (standard) ·
+`DIRECTOR` (brutal) — and a **night**. Clear a night to unlock the next:
+**Night 1 → 2 → 3**, each with bolder entities and more frequent anomalies.
+
 ### Keyboard
 
 `1–6` select camera · `L` lights · `A` audio · `V` vents · `Space` log ·
-`T` deploy TMF · `H` handbook.
+`T` deploy TMF · `P` panic · `H` handbook · `Enter` skip boot.
 
 ### Tactical Mobile Force (TMF)
 
@@ -100,14 +113,15 @@ The entities **learn**: their aggression ramps up across the shift.
 ## Project layout
 
 ```
-index.html              markup + overlays
-css/style.css           surveillance / analog‑horror styling (CRT, scanlines, vignette)
-js/config.js            tuning constants, entity metadata, the Handbook text
-js/rules.js             per‑entity agitation/control behaviour (the conflicts live here)
-js/audio.js             procedural Web Audio: hum, static bed, beeps, alarm
-js/game.js              state, simulation loop, canvas rendering, UI wiring
-assets/monsters/*.png   the six entity sprites (640×480 pixel art)
-tools/generate_sprites.py   regenerates the sprites with Pillow
+index.html                    markup + overlays (boot, title, handbook, end)
+css/style.css                 surveillance / analog‑horror styling (CRT, scanlines, vignette)
+js/config.js                  tuning, entity metadata, difficulties, nights, boot + corrupt text, Handbook
+js/rules.js                   per‑entity agitation/control behaviour (the conflicts live here)
+js/audio.js                   procedural Web Audio: hum, static bed, beeps, alarm
+js/game.js                    state, simulation, anomalies, canvas rendering, UI wiring
+assets/monsters/*.png         the six entity sprites (640×480 pixel art)
+tools/generate_sprites.py     regenerates the sprites with Pillow
+docs/GAME_DESIGN_DOCUMENT.md  the full design document
 ```
 
 ### Regenerating the sprites

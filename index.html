@@ -18,6 +18,7 @@
       <span class="sub">MANAGER TERMINAL · REV 3.3</span>
     </div>
     <div class="status-cluster">
+      <div class="night-chip" id="nightChip">NIGHT 1</div>
       <div class="clock-block">
         <div class="clock" id="clock">00:00</div>
         <div class="shift-bar"><div class="shift-fill" id="shiftFill"></div></div>
@@ -26,6 +27,9 @@
         <div class="tmf-label">T.M.F.</div>
         <div class="tmf-state" id="tmfState">READY</div>
       </div>
+      <button id="btnPanic" class="panic-btn" title="Emergency stabilization (P)">
+        <span class="p-k">PANIC</span><span class="p-v" id="vPanic">ARMED</span>
+      </button>
       <button id="soundToggle" class="icon-btn" title="Master sound">🔇</button>
     </div>
   </header>
@@ -86,7 +90,14 @@
   </div>
 
   <!-- ====================== OVERLAYS ====================== -->
-  <div id="overlay-title" class="overlay show">
+
+  <!-- OS boot -->
+  <div id="overlay-boot" class="overlay show boot">
+    <div class="boot-screen"><pre id="bootText"></pre><span class="cursor">█</span></div>
+  </div>
+
+  <!-- title / shift-start -->
+  <div id="overlay-title" class="overlay">
     <div class="o-card">
       <div class="rec big">●REC</div>
       <h1>THE OBSERVATION WING</h1>
@@ -100,6 +111,17 @@
         <li>Control ≤ 10% → deploy the <b>TMF</b> to re-contain. Misuse is fatal to them.</li>
         <li>Survive until <b>06:00</b> to hold the wing.</li>
       </ul>
+
+      <div class="select-row">
+        <div class="select-label">SELECT NIGHT</div>
+        <div class="chips" id="nightChips"></div>
+      </div>
+      <div class="select-row">
+        <div class="select-label">CLEARANCE / DIFFICULTY</div>
+        <div class="chips" id="diffChips"></div>
+        <div class="select-desc" id="diffDesc"></div>
+      </div>
+
       <div class="o-actions">
         <button id="btnStart" class="big-btn">BEGIN SHIFT</button>
         <button id="btnReadFirst" class="ghost-btn">READ HANDBOOK</button>
@@ -108,6 +130,7 @@
     </div>
   </div>
 
+  <!-- handbook -->
   <div id="overlay-handbook" class="overlay">
     <div class="o-card book">
       <pre id="handbookText"></pre>
@@ -115,13 +138,16 @@
     </div>
   </div>
 
+  <!-- end / shift-complete / game-over -->
   <div id="overlay-end" class="overlay">
     <div class="o-card">
       <h1 id="endTitle">FACILITY LOST</h1>
       <p id="endMsg" class="tag"></p>
       <div id="endStats" class="brief"></div>
       <div class="o-actions">
-        <button id="btnRestart" class="big-btn">RESTART SHIFT</button>
+        <button id="btnNextNight" class="big-btn" style="display:none">PROCEED TO NEXT NIGHT ▸</button>
+        <button id="btnRestart" class="ghost-btn">RESTART NIGHT</button>
+        <button id="btnToTitle" class="ghost-btn">MAIN TERMINAL</button>
       </div>
     </div>
   </div>
