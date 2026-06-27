@@ -1,4 +1,9 @@
-name: Deploy to GitHub Pages
+name: Publish to GitHub Pages
+
+# Pages is served from the `gh-pages` branch. This workflow mirrors the
+# site there on every push, so the live page stays in sync. It uses only
+# the built-in GITHUB_TOKEN (contents: write) — no Pages-admin API calls,
+# which this account blocks for integration tokens.
 
 on:
   push:
@@ -6,34 +11,25 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: pages-publish
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Pages (auto-enable)
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Mirror site to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          touch .nojekyll
+          git checkout --orphan gh-pages-deploy
+          git add -A
+          git commit -m "Deploy: ${GITHUB_SHA::7}"
+          git push -f origin gh-pages-deploy:gh-pages
